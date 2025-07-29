@@ -1,39 +1,33 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2761
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww18980\viewh14660\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+import discord
+import random
+import os
+from keep_alive import keep_alive  # Make sure keep_alive.py exists
 
-\f0\fs24 \cf0 import discord\
-import random\
-import os\
-from keep_alive import keep_alive  # Make sure keep_alive.py exists!\
-\
-intents = discord.Intents.default()\
-intents.message_content = True\
-client = discord.Client(intents=intents)\
-\
-responses = [\
-    "Hey there! \uc0\u55357 \u56395 ",\
-    "What\'92s up?",\
-    "Hope you're doing awesome!",\
-    "Hello, legend \uc0\u55357 \u56836 ",\
-    "Nice to see you!",\
-    "Yo! What\'92s good? \uc0\u55357 \u56846 ",\
-]\
-\
-@client.event\
-async def on_ready():\
-    print(f"\uc0\u9989  Bot is online as \{client.user\}")\
-\
-@client.event\
-async def on_message(message):\
-    if message.author == client.user:\
-        return\
-\
-    if any(word in message.content.lower() for word in ["hello", "hi", "hey"]):\
-        await message.channel.send(random.choice(responses))\
-\
-keep_alive()  # \uc0\u9989  Add this to keep the Replit server running\
-client.run(os.environ["DISCORD_BOT_TOKEN"])}
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
+
+responses = [
+    "Hey there! 👋",
+    "What’s up?",
+    "Hope you're doing awesome!",
+    "Hello, legend 😄",
+    "Nice to see you!",
+    "Yo! What’s good? 😎",
+]
+
+@client.event
+async def on_ready():
+    print(f"✅ Bot is online as {client.user}")
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if any(word in message.content.lower() for word in ["hello", "hi", "hey"]):
+        await message.channel.send(random.choice(responses))
+
+keep_alive()  # Keeps the server alive (for uptime pings)
+client.run(os.environ["DISCORD_BOT_TOKEN"])
+
