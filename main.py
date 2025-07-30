@@ -39,21 +39,20 @@ async def on_message(message):
 
 @bot.command()
 async def chat(ctx, *, message):
-    async with ctx.channel.typing():
-
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful, witty Discord bot named BreezyBot."},
-                {"role": "user", "content": message}
-            ],
-            max_tokens=100,
-            temperature=0.8,
-        )
+        async with ctx.channel.typing():  # ✅ This line needs a block under it
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful, witty Discord bot named BreezyBot."},
+                    {"role": "user", "content": message}
+                ],
+                max_tokens=100,
+                temperature=0.8,
+            )
 
-        reply = response.choices[0].message["content"]
-        await ctx.send(reply)
+            reply = response.choices[0].message["content"]
+            await ctx.send(reply)
 
     except Exception as e:
         await ctx.send("😅 Something went wrong.")
