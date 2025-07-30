@@ -39,7 +39,7 @@ async def on_message(message):
 
 @bot.command()
 async def chat(ctx, *, message):
-    await ctx.trigger_typing()
+    async with ctx.channel.typing():
 
     try:
         response = openai.ChatCompletion.create(
