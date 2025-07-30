@@ -40,7 +40,7 @@ async def on_message(message):
 @bot.command()
 async def chat(ctx, *, message):
     try:
-        async with ctx.channel.typing():  # ✅ This line needs a block under it
+        #async with ctx.channel.typing():  # ✅ This line needs a block under it
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
