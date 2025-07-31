@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import os
+import asyncio
 from keep_alive import keep_alive  # Your Flask keep-alive server
 
 # Set up intents and bot
@@ -19,20 +20,6 @@ responses = [
     "Yo! What’s good? 😎",
 ]
 
-# Holy Blindfold chorus lyrics
-holy_blindfold_chorus = (
-    "🎶\n"
-    "Let the sky fall\n"
-    "If I'm lookin' at you, then my lens is a rose\n"
-    "(Lookin' at you, lookin' at you)\n"
-    "(If I'm lookin' at you, then my lens is a rose)\n"
-    "Holy blindfold (Ooh)\n"
-    "When I'm lookin' at you, God rest my soul\n"
-    "Feel like I saw the light\n"
-    "It feel like\n"
-    "🎶"
-)
-
 @bot.event
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
@@ -42,17 +29,30 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    msg_lower = message.content.lower()
-
-    # Respond to greetings
-    if any(word in msg_lower for word in ["hello", "hi", "hey"]):
+    if any(word in message.content.lower() for word in ["hello", "hi", "hey"]):
         await message.channel.send(random.choice(responses))
-
-    # Respond to "sing Holy Blindfold"
-    if "sing holy blindfold" in msg_lower:
-        await message.channel.send(holy_blindfold_chorus)
 
     await bot.process_commands(message)  # Required to allow commands
 
+@bot.command()
+async def sing(ctx, *, song_name: str):
+    if song_name.lower() == "holy blindfold":
+        chorus_lines = [
+            "🎶 Let the sky fall",
+            "If I'm lookin' at you, then my lens is a rose",
+            "(Lookin' at you, lookin' at you)",
+            "(If I'm lookin' at you, then my lens is a rose)",
+            "Holy blindfold (Ooh)",
+            "When I'm lookin' at you, God rest my soul",
+            "Feel like I saw the light",
+            "It feel like 🎶"
+        ]
+        for line in chorus_lines:
+            await ctx.send(line)
+            await asyncio.sleep(30)  # Wait 30 seconds between lines
+    else:
+        await ctx.send("😅 I don't know that one yet.")
+
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
+
