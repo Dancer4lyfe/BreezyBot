@@ -29,10 +29,11 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if any(word in message.content.lower() for word in ["hello Chris", "hi Chris", "hey Chris", "Sup Breezy"]):
-        await message.channel.send(random.choice(responses))
+    if any(greet in message.content.lower() for greet in ["hello", "hi", "hey", "sup"]) and "chris" in message.content.lower():
+        response = random.choice(responses)
         user_mention = message.author.mention
         await message.channel.send(f"{response} {user_mention}")
+
 
     await bot.process_commands(message)  # Required to allow commands
 
