@@ -76,7 +76,7 @@ async def sing(ctx, *, song_name: str):
             "Who's gettin' all of my?",
             "Who's gettin' all of my residuals?🎶",
         ]
-elif song_name == "it depends":
+    elif song_name == "it depends":
         chorus_lines = [
             "🎶 You bad as hell, I'll treat you well, I will",
             "It's good, I can tell, come give me hell, come here",
