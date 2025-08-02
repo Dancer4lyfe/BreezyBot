@@ -29,8 +29,10 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if any(word in message.content.lower() for word in ["hello", "hi", "hey"]):
+    if any(word in message.content.lower() for word in ["hello Chris", "hi Chris", "hey Chris", "Sup Breezy"]):
         await message.channel.send(random.choice(responses))
+        user_mention = message.author.mention
+        await message.channel.send(f"{response} {user_mention}")
 
     await bot.process_commands(message)  # Required to allow commands
 
@@ -49,7 +51,7 @@ async def sing(ctx, *, song_name: str):
         ]
         for line in chorus_lines:
             await ctx.send(line)
-            await asyncio.sleep(7.5)  # Wait 7.5 seconds between lines
+            await asyncio.sleep(3)  # Wait 3 seconds between lines
     else:
         await ctx.send("😅 I don't know that one yet.")
 
