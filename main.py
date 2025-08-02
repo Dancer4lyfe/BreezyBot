@@ -29,17 +29,19 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if any(greet in message.content.lower() for greet in ["hello", "hi", "hey", "sup"]) and "chris" in message.content.lower():
+    if any(greet in message.content.lower() for greet in ["hello", "hi", "hey", "sup"]) and \
+       any(name in message.content.lower() for name in ["chris", "breezy"]):
         response = random.choice(responses)
         user_mention = message.author.mention
         await message.channel.send(f"{response} {user_mention}")
 
-
-    await bot.process_commands(message)  # Required to allow commands
+    await bot.process_commands(message)
 
 @bot.command()
 async def sing(ctx, *, song_name: str):
-    if song_name.lower() == "holy blindfold":
+    song_name = song_name.lower()
+
+    if song_name == "holy blindfold":
         chorus_lines = [
             "🎶 Let the sky fall",
             "If I'm lookin' at you, then my lens is a rose",
@@ -50,12 +52,38 @@ async def sing(ctx, *, song_name: str):
             "Feel like I saw the light",
             "It feel like 🎶"
         ]
-        for line in chorus_lines:
-            await ctx.send(line)
-            await asyncio.sleep(3)  # Wait 3 seconds between lines
+
+    elif song_name == "residuals":
+        chorus_lines = [
+            "🎶 Did we build it up, build it up",
+            "Just to let it wash away?",
+            "Tell me, did I lace you up, lace you up",
+            "Just to watch you run away?",
+            "Please tell me whoooooooooo",
+            "Who's gettin' all my love? (Love)",
+            "Who's gettin' all my love?",
+            "Tell me whoooooooooooooo",
+            "Who’s gettin’ all my time?",
+            "All of that used to be mine, ohhh",
+            "Who did you teach what I taught ya? (Oh)",
+            "Better not give him my nickname",
+            "I don't like thinkin’ about it",
+            "I swear that it's wearin' me down, noooooo",
+            "But tell me whoooooooooo",
+            "Who's gettin’ all of my?",
+            "Who's gettin' all of my residuals?",
+            "(Whooooooooo)",
+            "Who's gettin' all of my?",
+            "Who's gettin' all of my residuals?🎶",
+        ]
+
     else:
         await ctx.send("😅 I don't know that one yet.")
+        return
+
+    for line in chorus_lines:
+        await ctx.send(line)
+        await asyncio.sleep(3)  # Adjustable delay
 
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
-
