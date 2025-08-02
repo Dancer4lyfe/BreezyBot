@@ -12,10 +12,10 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Greeting responses
 responses = [
-    "Hey there! 👋",
-    "What’s up?",
-    "Hope you're doing awesome!",
-    "Hello, legend 😄",
+    "Hey how you doing! 👋",
+    "Sup",
+    "Hope you're day is going good!",
+    "Hello 😄",
     "Nice to see you!",
     "Yo! What’s good? 😎",
 ]
@@ -76,7 +76,23 @@ async def sing(ctx, *, song_name: str):
             "Who's gettin' all of my?",
             "Who's gettin' all of my residuals?🎶",
         ]
-
+elif song_name == "it depends":
+        chorus_lines = [
+            "🎶 You bad as hell, I'll treat you well, I will",
+            "It's good, I can tell, come give me hell, come here",
+            "Your fairytale, under your spell, I am",
+            "She get Chanel, oh well, it all depends (Oh yeah, baby)",
+            "You scream and yell, can't call for help, I'm here (No)",
+            "You leaving welts, I feel your nails, for real",
+            "I eat you good, you sleepin' good, for real",
+            "I freak you well, I freak you well, I will",
+            "I'll freak you right I will",
+            "I'll freak you right, I will",
+            "I'll freak you like no one has ever, ever made you feel",
+            "I'll freak you right, I will",
+            "I'll freak you right, I will",
+            "I'll freak you, freak you like no one has ever made you feel, yeah 🎶"
+        ]
     else:
         await ctx.send("😅 I don't know that one yet.")
         return
