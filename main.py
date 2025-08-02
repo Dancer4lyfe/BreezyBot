@@ -49,7 +49,7 @@ async def sing(ctx, *, song_name: str):
         ]
         for line in chorus_lines:
             await ctx.send(line)
-            await asyncio.sleep(15)  # Wait 15 seconds between lines
+            await asyncio.sleep(7.5)  # Wait 7.5 seconds between lines
     else:
         await ctx.send("😅 I don't know that one yet.")
 
