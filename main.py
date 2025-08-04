@@ -20,6 +20,14 @@ responses = [
     "Yo! What’s good? 😎",
 ]
 
+# Quote responses
+quotes = [
+    " I don't care to make you think I'm a good person, I'm just going to be one. – Chris Brown",
+    "Quote 2",
+    "Quote 3",
+    "Quote 4"
+]
+
 @bot.event
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
@@ -35,7 +43,7 @@ async def on_message(message):
         user_mention = message.author.mention
         await message.channel.send(f"{response} {user_mention}")
 
-    await bot.process_commands(message)
+    await bot.process_commands(message) # Required to allow commands
 
 @bot.command()
 async def sing(ctx, *, song_name: str):
@@ -99,7 +107,13 @@ async def sing(ctx, *, song_name: str):
 
     for line in chorus_lines:
         await ctx.send(line)
-        await asyncio.sleep(3)  # Adjustable delay
+        await asyncio.sleep(3)  # Wait 3 seconds between lines
+
+@bot.command()
+async def quote(ctx):
+    chosen_quote = random.choice(quotes)
+    await ctx.send(f"💬 {chosen_quote}")
+
 
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
