@@ -22,10 +22,11 @@ responses = [
 
 # Quote responses
 quotes = [
-    " I don't care to make you think I'm a good person, I'm just going to be one. – Chris Brown",
-    "Quote 2",
-    "Quote 3",
-    "Quote 4"
+    " I don't care to make you believe I'm a great person, I'm just gonna be one. – Chris Brown",
+    "They can write it, who gone sing it like me -Chris Brown",
+    "Like ok don't slack up just because you can smile or look cool in front of the camera, Nah, go hard - Chris Brown",
+    "Haters keep on hating, cause somebody's gotta do it. - Chris Brown",
+    "I try to stay in my lane, get out the way, don't bother nobody, but I'm not gonna take no nonsense - Chris Brown"
 ]
 
 @bot.event
