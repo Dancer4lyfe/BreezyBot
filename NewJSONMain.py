@@ -29,6 +29,18 @@ with open("quotes.json", "r") as f:
 with open("songs.json", "r") as f:
     songs = json.load(f)
 
+# Load news from JSON
+with open("news.json", "r") as f:
+    news_items = json.load(f)["news"]
+
+# Load or initialize news index
+NEWS_INDEX_FILE = "news_index.json"
+if os.path.exists(NEWS_INDEX_FILE):
+    with open(NEWS_INDEX_FILE, "r") as f:
+        news_index = json.load(f).get("index", 0)
+else:
+    news_index = 0
+
 @bot.event
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
@@ -62,5 +74,19 @@ async def quote(ctx):
     chosen_quote = random.choice(quotes)
     await ctx.send(f"💬 {chosen_quote}")
 
+@bot.command()
+async def news(ctx):
+    global news_index
+    item = news_items[news_index]
+    await ctx.send(f"📰 {item}")
+
+    # Move to next index
+    news_index = (news_index + 1) % len(news_items)
+
+    # Save updated index to file
+    with open(NEWS_INDEX_FILE, "w") as f:
+        json.dump({"index": news_index}, f)
+
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
+
