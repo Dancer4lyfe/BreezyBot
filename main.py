@@ -29,6 +29,17 @@ quotes = [
     "I try to stay in my lane, get out the way, don't bother nobody, but I'm not gonna take no nonsense - Chris Brown"
 ]
 
+# News responses
+news_items = [
+    "Chris Brown teased a new single dropping later this month!",
+    "Breezy just performed at the BET Awards and killed it 🔥",
+    "Chris posted behind-the-scenes clips from the 'Residuals' music video.",
+    "New Breezy merch just dropped — check his official site!"
+]
+
+# Track current news index
+news_index = 0
+
 @bot.event
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
@@ -115,6 +126,14 @@ async def quote(ctx):
     chosen_quote = random.choice(quotes)
     await ctx.send(f"💬 {chosen_quote}")
 
+@bot.command()
+async def news(ctx):
+    global news_index
+    item = news_items[news_index]
+    await ctx.send(f"📰 {item}")
+
+    # Move to next index
+    news_index = (news_index + 1) % len(news_items)
 
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
