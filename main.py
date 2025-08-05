@@ -31,6 +31,7 @@ quotes = [
 
 # News responses
 news_items = [
+    "Hey I just dropped my latest video for Holy Blindfold, check it out 🎬 https://youtu.be/X4g30-XY9Ck?si=ykJnPvLyYsjmuOrb"
     "Chris Brown teased a new single dropping later this month!",
     "Breezy just performed at the BET Awards and killed it 🔥",
     "Chris posted behind-the-scenes clips from the 'Residuals' music video.",
@@ -129,8 +130,9 @@ async def quote(ctx):
 @bot.command()
 async def news(ctx):
     global news_index
+    user_mention = ctx.author.mention
     item = news_items[news_index]
-    await ctx.send(f"📰 {item}")
+    await ctx.send(f"📰 {user_mention} {item}")
 
     # Move to next index
     news_index = (news_index + 1) % len(news_items)
