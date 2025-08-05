@@ -31,7 +31,7 @@ quotes = [
 
 # News responses
 news_items = [
-    "Hey I just dropped my latest video for Holy Blindfold, check it out 🎬 https://youtu.be/X4g30-XY9Ck?si=ykJnPvLyYsjmuOrb"
+    "Hey I just dropped my latest video for Holy Blindfold, check it out 🎬 https://youtu.be/X4g30-XY9Ck?si=ykJnPvLyYsjmuOrb",
     "Chris Brown teased a new single dropping later this month!",
     "Breezy just performed at the BET Awards and killed it 🔥",
     "Chris posted behind-the-scenes clips from the 'Residuals' music video.",
