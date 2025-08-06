@@ -26,7 +26,8 @@ quotes = [
     "They can write it, who gone sing it like me -Chris Brown",
     "Like ok don't slack up just because you can smile or look cool in front of the camera, Nah, go hard - Chris Brown",
     "Haters keep on hating, cause somebody's gotta do it. - Chris Brown",
-    "I try to stay in my lane, get out the way, don't bother nobody, but I'm not gonna take no nonsense - Chris Brown"
+    "I try to stay in my lane, get out the way, don't bother nobody, but I'm not gonna take no nonsense - Chris Brown",
+    "You have to deal with and go through the worst stuff to be blessed. The Blessing is MY GOAL NO MATTER WHAT! - Chris Brown"
 ]
 
 # News responses
