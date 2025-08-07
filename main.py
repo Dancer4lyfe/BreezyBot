@@ -27,7 +27,9 @@ quotes = [
     "Like ok don't slack up just because you can smile or look cool in front of the camera, Nah, go hard - Chris Brown",
     "Haters keep on hating, cause somebody's gotta do it. - Chris Brown",
     "I try to stay in my lane, get out the way, don't bother nobody, but I'm not gonna take no nonsense - Chris Brown",
-    "You have to deal with and go through the worst stuff to be blessed. The Blessing is MY GOAL NO MATTER WHAT! - Chris Brown"
+    "You have to deal with and go through the worst stuff to be blessed. The Blessing is MY GOAL NO MATTER WHAT! - Chris Brown",
+    "I Want to make sure ya'll get ya'll money's worth everytime I get on this stage - Chris Brown",
+    "Team Breezy isn't just a fan base, it's family to me - Chris Brown"
 ]
 
 # News responses
