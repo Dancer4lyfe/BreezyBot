@@ -38,7 +38,7 @@ news_items = [
     "If you missed it I announced the title of my new album #BROWN be on the look out for me info",
     "Check out my latest single I released with Byrson It Depends https://chrisbrown.lnk.to/itdepends 🔥",
     "Get your tickets to Breezy Bowl and come have a good time with me can't wait to see ya'll! https://www.chrisbrownworld.com/tour/",
-    "Go get your Breezy Bowl Merch, I'll se you soon. https://chrisbrownworldstore.com/"
+    "Go get your Breezy Bowl Merch, I'll see you soon. https://chrisbrownworldstore.com/"
 ]
 
 # Track current news index
