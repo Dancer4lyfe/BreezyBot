@@ -108,7 +108,7 @@ async def check_youtube():
         with open(LAST_VIDEO_FILE, "r") as f:
             last_video_id = f.read().strip()
 
-    if video_id != last_video_id:
+    #if video_id != last_video_id:
         channel = bot.get_channel(NEWS_CHANNEL_ID)
         if channel:
             await channel.send(f"Hey Team Breezy I just dropped a new video on Youtube. Go check it out!\n{video_url}")
