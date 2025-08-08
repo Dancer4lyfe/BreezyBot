@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 # --- CONFIG ---
 YOUTUBE_FEED_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCcYrdFJF7hmPXRNaWdrko4w"
-NEWS_CHANNEL_ID = 1208949333987168306  # Channel where updates will post
+NEWS_CHANNEL_ID = 1395983039288315965  #1208949333987168306  # Channel where updates will post
 LAST_VIDEO_FILE = "last_video.txt"
 
 # Load greeting responses
