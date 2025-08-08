@@ -91,6 +91,7 @@ async def news(ctx):
     with open(NEWS_INDEX_FILE, "w") as f:
         json.dump({"index": news_index}, f)
 
+
 # --- NEW: YouTube Watcher ---
 @tasks.loop(minutes=5)  # check every 5 minutes
 async def check_youtube():
@@ -108,13 +109,34 @@ async def check_youtube():
         with open(LAST_VIDEO_FILE, "r") as f:
             last_video_id = f.read().strip()
 
-    #if video_id != last_video_id:
+    # Only post if it's a new video
+    if video_id != last_video_id:
         channel = bot.get_channel(NEWS_CHANNEL_ID)
         if channel:
-            await channel.send(f"@everyone Hey Team Breezy I just dropped a new video on Youtube. Go check it out!\n{video_url}")
+            await channel.send(
+                f"@everyone Hey Team Breezy I just dropped a new video on YouTube. Go check it out!\n{video_url}"
+            )
 
+        # Save this video ID as the last posted
         with open(LAST_VIDEO_FILE, "w") as f:
             f.write(video_id)
+
+# Immediate startup check
+@check_youtube.before_loop
+async def before_check_youtube():
+    await bot.wait_until_ready()
+    await check_youtube()
+    print("✅ First YouTube check run — starting 5-minute loop.")
+
+# --- NEW: Manual check command ---
+@bot.command(name="checknow")
+async def check_now(ctx):
+    """Manually trigger a YouTube feed check."""
+    await check_youtube()
+    await ctx.send("✅ Manual feed check completed.")
+
+# Start loop in on_ready or after all tasks are defined
+# check_youtube.start()
 
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
