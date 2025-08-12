@@ -101,7 +101,7 @@ async def tour(ctx):
     same_day_events = [t for t in upcoming if datetime.strptime(t["date"], "%Y-%m-%d").date() == next_date]
 
     # Build response
-    response = f"🎤 {ctx.author.mention} here's my next show info:\n"
+    response = f"🎤 {ctx.author.mention} What's up, here's my next show can't wait to see you! info:\n"
     for event in same_day_events:
         response += f"📅 {event['date']} {event['time']} - {event['city']} @ {event['venue']} | [More Info]({event['info_url']})\n"
 
