@@ -36,10 +36,10 @@ else:
 
 # Greeting responses
 greeting_responses = [
-    "Hey there! 👋",
-    "What’s up?",
-    "Hope you're doing awesome!",
-    "Hello, legend 😄",
+    "Hey how you doing! 👋",
+    "Sup",
+    "Hope you're day is going good!",
+    "Hello 😄",
     "Nice to see you!",
     "Yo! What’s good? 😎",
 ]
