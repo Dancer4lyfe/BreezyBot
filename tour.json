@@ -1,0 +1,158 @@
+{
+  "tour_dates": [
+    {
+      "date": "2025-08-12",
+      "time": "19:00",
+      "city": "East Rutherford, NJ",
+      "venue": "MetLife Stadium",
+      "info_url": "https://www.ticketmaster.com/event/15"
+    },
+    {
+      "date": "2025-08-13",
+      "time": "19:00",
+      "city": "East Rutherford, NJ",
+      "venue": "MetLife Stadium",
+      "info_url": "https://www.ticketmaster.com/event/20"
+    },
+    {
+      "date": "2025-08-19",
+      "time": "19:00",
+      "city": "Toronto, ON, CA",
+      "venue": "Rogers Stadium",
+      "info_url": "https://www.ticketmaster.ca/chris-brown-breezy-bowl-xx-toronto-ontario-08-19-2025/event/1000627896EF168E"
+  },
+  {
+      "date": "2025-08-20",
+      "time": "19:00",
+      "city": "Toronto, ON, CA",
+      "venue": "Rogers Stadium",
+      "info_url": "https://www.ticketmaster.ca/chris-brown-breezy-bowl-xx-toronto-ontario-08-20-2025/event/1000628173920E07"
+    }
+    {
+      "date": "2025-08-23",
+      "time": "19:00",
+      "city": "East Hartford, CT",
+      "venue": "Pratt & Whitney Stadium",
+      "info_url": "https://www.ticketmaster.com/event/21"
+    },
+    {
+      "date": "2025-08-25",
+      "time": "18:00",
+      "city": "Boston, MA",
+      "venue": "Fenway Park – Platinum Tickets",
+      "info_url": "https://www.ticketmaster.com/event/24"
+    },
+    {
+      "date": "2025-08-25",
+      "time": "18:30",
+      "city": "Boston, MA",
+      "venue": "Fenway Park",
+      "info_url": "https://www.ticketmaster.com/event/26"
+    },
+    {
+      "date": "2025-08-25",
+      "time": "22:00",
+      "city": "Boston, MA",
+      "venue": "The Grand (Afterparty)",
+      "info_url": "https://www.ticketmaster.com/event/27"
+    },
+    {
+      "date": "2025-08-28",
+      "time": "18:30",
+      "city": "Chicago, IL",
+      "venue": "Wrigley Field – Platinum",
+      "info_url": "https://www.ticketmaster.com/event/29"
+    },
+    {
+      "date": "2025-08-28",
+      "time": "19:00",
+      "city": "Chicago, IL",
+      "venue": "Wrigley Field",
+      "info_url": "https://www.ticketmaster.com/event/31"
+    },
+    {
+      "date": "2025-08-30",
+      "time": "19:00",
+      "city": "Atlanta, GA",
+      "venue": "Truist Park",
+      "info_url": "https://www.ticketmaster.com/event/32"
+    },
+    {
+      "date": "2025-08-31",
+      "time": "19:00",
+      "city": "Atlanta, GA",
+      "venue": "Truist Park",
+      "info_url": "https://www.ticketmaster.com/event/35"
+    },
+    {
+      "date": "2025-09-02",
+      "time": "19:00",
+      "city": "Arlington, TX",
+      "venue": "Globe Life Field",
+      "info_url": "https://www.ticketmaster.com/event/37"
+    },
+    {
+      "date": "2025-09-03",
+      "time": "19:00",
+      "city": "Arlington, TX",
+      "venue": "Globe Life Field",
+      "info_url": "https://www.ticketmaster.com/event/39"
+    },
+    {
+      "date": "2025-09-05",
+      "time": "19:00",
+      "city": "Saint Louis, MO",
+      "venue": "The Dome at America's Center",
+      "info_url": "https://www.ticketmaster.com/event/40"
+    },
+    {
+      "date": "2025-09-08",
+      "time": "19:00",
+      "city": "Houston, TX",
+      "venue": "Daikin Park",
+      "info_url": "https://www.ticketmaster.com/event/42"
+    },
+    {
+      "date": "2025-09-11",
+      "time": "19:00",
+      "city": "Phoenix, AZ",
+      "venue": "Chase Field",
+      "info_url": "https://www.ticketmaster.com/event/44"
+    },
+    {
+      "date": "2025-09-13",
+      "time": "19:00",
+      "city": "Inglewood, CA",
+      "venue": "SoFi Stadium",
+      "info_url": "https://www.ticketmaster.com/event/46"
+    },
+    {
+      "date": "2025-09-14",
+      "time": "19:00",
+      "city": "Inglewood, CA",
+      "venue": "SoFi Stadium",
+      "info_url": "https://www.ticketmaster.com/event/48"
+    },
+    {
+      "date": "2025-09-17",
+      "time": "19:00",
+      "city": "San Diego, CA",
+      "venue": "Petco Park",
+      "info_url": "https://www.ticketmaster.com/event/49"
+    },
+    {
+      "date": "2025-09-19",
+      "time": "19:00",
+      "city": "Las Vegas, NV",
+      "venue": "Allegiant Stadium",
+      "info_url": "https://www.ticketmaster.com/event/52"
+    },
+    {
+      "date": "2025-09-20",
+      "time": "19:00",
+      "city": "Las Vegas, NV",
+      "venue": "Allegiant Stadium",
+      "info_url": "https://www.ticketmaster.com/event/54"
+    }
+  ]
+}
