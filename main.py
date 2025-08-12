@@ -4,40 +4,27 @@ import random
 import os
 import asyncio
 import json
-import feedparser   # <--- NEW
+from datetime import datetime
 from keep_alive import keep_alive  # Your Flask keep-alive server
+import feedparser
 
 # Set up intents and bot
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# --- CONFIG ---
-YOUTUBE_FEED_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCcYrdFJF7hmPXRNaWdrko4w"
-NEWS_CHANNEL_ID = 1208949333987168306  # Channel where updates will post
-LAST_VIDEO_FILE = "last_video.txt"
-
-# Load greeting responses
-responses = [
-    "Hey there! 👋",
-    "What’s up?",
-    "Hope you're doing awesome!",
-    "Hello, legend 😄",
-    "Nice to see you!",
-    "Yo! What’s good? 😎",
-]
-
-# Load quotes from JSON
+# ----------- Load Data Files -----------
 with open("quotes.json", "r") as f:
     quotes = json.load(f)["quotes"]
 
-# Load songs from JSON
 with open("songs.json", "r") as f:
     songs = json.load(f)
 
-# Load news from JSON
 with open("news.json", "r") as f:
     news_items = json.load(f)["news"]
+
+with open("tour.json", "r") as f:
+    tour_dates = json.load(f)["tour_dates"]
 
 # Load or initialize news index
 NEWS_INDEX_FILE = "news_index.json"
@@ -47,30 +34,39 @@ if os.path.exists(NEWS_INDEX_FILE):
 else:
     news_index = 0
 
-@bot.event
-async def on_ready():
-    print(f"✅ Bot is online as {bot.user}")
-    check_youtube.start()  # Start YouTube watcher loop
+# Greeting responses
+greeting_responses = [
+    "Hey there! 👋",
+    "What’s up?",
+    "Hope you're doing awesome!",
+    "Hello, legend 😄",
+    "Nice to see you!",
+    "Yo! What’s good? 😎",
+]
 
+# ----------- Greeting Logic -----------
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
 
-    if any(greet in message.content.lower() for greet in ["hello", "hi", "hey", "sup"]) and any(name in message.content.lower() for name in ["chris", "breezy"]):
-        response = random.choice(responses)
-        user_mention = message.author.mention
-        await message.channel.send(f"{response} {user_mention}")
+    # Improved greeting detection
+    greetings = ["hello", "hi", "hey", "sup"]
+    trigger_names = ["chris", "breezy"]
 
-    await bot.process_commands(message)
+    if any(word in message.content.lower().split() for word in greetings) and any(name in message.content.lower() for name in trigger_names):
+        response = random.choice(greeting_responses)
+        await message.channel.send(f"{response} {message.author.mention}")
+
+    await bot.process_commands(message)  # Allow commands to still run
+
+# ----------- Commands -----------
 
 @bot.command()
 async def sing(ctx, *, song_name: str):
     song_name = song_name.lower()
-
     if song_name in songs:
-        chorus_lines = songs[song_name]
-        for line in chorus_lines:
+        for line in songs[song_name]:
             await ctx.send(line)
             await asyncio.sleep(3)
     else:
@@ -91,52 +87,50 @@ async def news(ctx):
     with open(NEWS_INDEX_FILE, "w") as f:
         json.dump({"index": news_index}, f)
 
+@bot.command()
+async def tour(ctx):
+    today = datetime.now().date()
+    upcoming = [t for t in tour_dates if datetime.strptime(t["date"], "%Y-%m-%d").date() >= today]
 
-# --- NEW: YouTube Watcher ---
-@tasks.loop(minutes=5)  # check every 5 minutes
-async def check_youtube():
-    feed = feedparser.parse(YOUTUBE_FEED_URL)
-    if not feed.entries:
+    if not upcoming:
+        await ctx.send(f"Sorry {ctx.author.mention}, there are no upcoming shows right now.")
         return
 
-    latest_video = feed.entries[0]
-    video_id = latest_video.yt_videoid
-    video_url = latest_video.link
+    # Find the closest date
+    next_date = datetime.strptime(upcoming[0]["date"], "%Y-%m-%d").date()
+    same_day_events = [t for t in upcoming if datetime.strptime(t["date"], "%Y-%m-%d").date() == next_date]
 
-    # Check last posted video
-    last_video_id = None
-    if os.path.exists(LAST_VIDEO_FILE):
-        with open(LAST_VIDEO_FILE, "r") as f:
-            last_video_id = f.read().strip()
+    # Build response
+    response = f"🎤 {ctx.author.mention} here's my next show info:\n"
+    for event in same_day_events:
+        response += f"📅 {event['date']} {event['time']} - {event['city']} @ {event['venue']} | [More Info]({event['info_url']})\n"
 
-    # Only post if it's a new video
-    if video_id != last_video_id:
-        channel = bot.get_channel(NEWS_CHANNEL_ID)
-        if channel:
-            await channel.send(
-                f"@everyone Hey Team Breezy I just dropped a new video on YouTube. Go check it out!\n{video_url}"
-            )
+    await ctx.send(response)
 
-        # Save this video ID as the last posted
-        with open(LAST_VIDEO_FILE, "w") as f:
-            f.write(video_id)
+# ----------- YouTube Check Task -----------
+YOUTUBE_RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCcYrdFJF7i8aPj91Q5Z_7Bw"
+last_video_id = None
 
-# Immediate startup check
-@check_youtube.before_loop
-async def before_check_youtube():
-    await bot.wait_until_ready()
-    await check_youtube()
-    print("✅ First YouTube check run — starting 5-minute loop.")
+@tasks.loop(minutes=10)
+async def check_youtube():
+    global last_video_id
+    feed = feedparser.parse(YOUTUBE_RSS_URL)
+    if feed.entries:
+        latest = feed.entries[0]
+        video_id = latest.id
+        if video_id != last_video_id:
+            last_video_id = video_id
+            channel = bot.get_channel(1208949333987168306)
+            if channel:
+                await channel.send(
+                    f"Hey Team Breezy I just dropped a new video on Youtube. Go Check it out!\n{latest.link}"
+                )
 
-# --- NEW: Manual check command ---
-@bot.command(name="checknow")
-async def check_now(ctx):
-    """Manually trigger a YouTube feed check."""
-    await check_youtube()
-    await ctx.send("✅ Manual feed check completed.")
+@bot.event
+async def on_ready():
+    print(f"✅ Bot is online as {bot.user}")
+    check_youtube.start()
 
-# Start loop in on_ready or after all tasks are defined
-# check_youtube.start()
-
+# ----------- Start Bot -----------
 keep_alive()
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
