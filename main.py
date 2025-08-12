@@ -50,16 +50,22 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Improved greeting detection
+    msg_lower = message.content.lower().strip()
+    words = msg_lower.split()
+
     greetings = ["hello", "hi", "hey", "sup"]
     trigger_names = ["chris", "breezy"]
 
-    if any(word in message.content.lower().split() for word in greetings) and any(name in message.content.lower() for name in trigger_names):
+    # Only trigger if:
+    # 1. Greeting is the first or second word, AND
+    # 2. Name is mentioned somewhere
+    if any(words[0] == g or (len(words) > 1 and words[1] == g) for g in greetings) \
+            and any(name in msg_lower for name in trigger_names):
         response = random.choice(greeting_responses)
         await message.channel.send(f"{response} {message.author.mention}")
 
-    await bot.process_commands(message)  # Allow commands to still run
-
+    await bot.process_commands(message) #allow commands to still run
+    
 # ----------- Commands -----------
 
 @bot.command()
