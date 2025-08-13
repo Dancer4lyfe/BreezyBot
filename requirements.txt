@@ -2,4 +2,4 @@ discord.py
 flask
 google-generativeai
 feedparser
-pip install TikTokApi
+TikTokApi
