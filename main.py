@@ -38,10 +38,10 @@ else:
 
 # Greeting responses
 greeting_responses = [
-    "Hey there! 👋",
-    "What’s up?",
-    "Hope you're doing awesome!",
-    "Hello, legend 😄",
+    "Hey how you doing! 👋",
+    "Sup",
+    "Hope you're day is going good!",
+    "Hello 😄",
     "Nice to see you!",
     "Yo! What’s good? 😎",
 ]
@@ -114,20 +114,20 @@ async def today(ctx):
     today_key = datetime.now().strftime("%m-%d")
     if today_key in on_this_day_events:
         events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-        await ctx.send(f"🎤 {ctx.author.mention} — On this day in Chris's career:\n{events}")
+        await ctx.send(f"🎤 {ctx.author.mention} — On this day:\n{events}")
     else:
         await ctx.send(f"🙁 {ctx.author.mention} — Nothing special found for today.")
 
 @tasks.loop(hours=24)
 async def daily_on_this_day():
     """Automatically post today's events once a day."""
-    channel_id = 123456789012345678  # CHANGE to your channel ID
+    channel_id = 1395983039288315965  # CHANGE to your channel ID
     channel = bot.get_channel(channel_id)
     if channel:
         today_key = datetime.now().strftime("%m-%d")
         if today_key in on_this_day_events:
             events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-            await channel.send(f"🎤 On this day in Chris's career:\n{events}")
+            await channel.send(f"🎤 On this day:\n{events}")
 
 @bot.event
 async def on_ready():
