@@ -112,6 +112,8 @@ async def tour(ctx):
 async def today(ctx):
     """Manually check today's On This Day events."""
     today_key = datetime.now().strftime("%m-%d")
+    print(f"DEBUG Today key: '{today_key}'")  # This will show exactly what key it's using
+    print(f"DEBUG Keys loaded: {list(on_this_day_events.keys())}")
     if today_key in on_this_day_events:
         events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
         await ctx.send(f"🎤 {ctx.author.mention} — On this day:\n{events}")
