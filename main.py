@@ -133,20 +133,20 @@ async def today(ctx):
     print(f"DEBUG Keys loaded: {list(on_this_day_events.keys())}")
     if today_key in on_this_day_events:
         events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-        await ctx.send(f"🎤 {ctx.author.mention} — On this day:\n{events}")
+        await ctx.send(f"@everyone 🎤 {ctx.author.mention} — On this day:\n{events}")
     else:
         await ctx.send(f"🙁 {ctx.author.mention} — Nothing special found for today.")
 
 @tasks.loop(hours=24)
 async def daily_on_this_day():
     """Automatically post today's events once a day."""
-    channel_id = 1395983039288315965  # CHANGE to your channel ID
+    channel_id = 1208949333987168306  # CHANGE to your channel ID
     channel = bot.get_channel(channel_id)
     if channel:
         today_key = datetime.now().strftime("%m-%d")
         if today_key in on_this_day_events:
             events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-            await channel.send(f"🎤 On this day:\n{events}")
+            await channel.send(f"@everyone 🎤 On this day:\n{events}")
 
 @bot.event
 async def on_ready():
