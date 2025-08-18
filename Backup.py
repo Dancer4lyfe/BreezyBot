@@ -6,7 +6,6 @@ import asyncio
 import json
 from datetime import datetime
 from keep_alive import keep_alive  # Your Flask keep-alive server
-import feedparser
 
 # Set up intents and bot
 intents = discord.Intents.default()
@@ -25,6 +24,9 @@ with open("news.json", "r") as f:
 
 with open("tour.json", "r") as f:
     tour_dates = json.load(f)["tour_dates"]
+
+with open("on_this_day.json", "r") as f:
+    on_this_day_events = json.load(f)
 
 # Load or initialize news index
 NEWS_INDEX_FILE = "news_index.json"
@@ -50,22 +52,15 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    msg_lower = message.content.lower().strip()
-    words = msg_lower.split()
-
     greetings = ["hello", "hi", "hey", "sup"]
     trigger_names = ["chris", "breezy"]
 
-    # Only trigger if:
-    # 1. Greeting is the first or second word, AND
-    # 2. Name is mentioned somewhere
-    if any(words[0] == g or (len(words) > 1 and words[1] == g) for g in greetings) \
-            and any(name in msg_lower for name in trigger_names):
+    if any(word in message.content.lower().split() for word in greetings) and any(name in message.content.lower() for name in trigger_names):
         response = random.choice(greeting_responses)
         await message.channel.send(f"{response} {message.author.mention}")
 
-    await bot.process_commands(message) #allow commands to still run
-    
+    await bot.process_commands(message)
+
 # ----------- Commands -----------
 
 @bot.command()
@@ -102,40 +97,44 @@ async def tour(ctx):
         await ctx.send(f"Sorry {ctx.author.mention}, there are no upcoming shows right now.")
         return
 
-    # Find the closest date
     next_date = datetime.strptime(upcoming[0]["date"], "%Y-%m-%d").date()
     same_day_events = [t for t in upcoming if datetime.strptime(t["date"], "%Y-%m-%d").date() == next_date]
 
-    # Build response
     response = f"🎤 {ctx.author.mention} What's up, here's my next show can't wait to see you! info:\n"
     for event in same_day_events:
         response += f"📅 {event['date']} {event['time']} - {event['city']} @ {event['venue']} | [More Info]({event['info_url']})\n"
 
     await ctx.send(response)
 
-# ----------- YouTube Check Task -----------
-YOUTUBE_RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCcYrdFJF7i8aPj91Q5Z_7Bw"
-last_video_id = None
+# ----------- On This Day Feature -----------
 
-@tasks.loop(minutes=10)
-async def check_youtube():
-    global last_video_id
-    feed = feedparser.parse(YOUTUBE_RSS_URL)
-    if feed.entries:
-        latest = feed.entries[0]
-        video_id = latest.id
-        if video_id != last_video_id:
-            last_video_id = video_id
-            channel = bot.get_channel(1208949333987168306)
-            if channel:
-                await channel.send(
-                    f"Hey Team Breezy I just dropped a new video on Youtube. Go Check it out!\n{latest.link}"
-                )
+@bot.command()
+async def today(ctx):
+    """Manually check today's On This Day events."""
+    today_key = datetime.now().strftime("%m-%d")
+    print(f"DEBUG Today key: '{today_key}'")  # This will show exactly what key it's using
+    print(f"DEBUG Keys loaded: {list(on_this_day_events.keys())}")
+    if today_key in on_this_day_events:
+        events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
+        await ctx.send(f"🎤 {ctx.author.mention} — On this day:\n{events}")
+    else:
+        await ctx.send(f"🙁 {ctx.author.mention} — Nothing special found for today.")
+
+@tasks.loop(hours=24)
+async def daily_on_this_day():
+    """Automatically post today's events once a day."""
+    channel_id = 1395983039288315965  # CHANGE to your channel ID
+    channel = bot.get_channel(channel_id)
+    if channel:
+        today_key = datetime.now().strftime("%m-%d")
+        if today_key in on_this_day_events:
+            events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
+            await channel.send(f"🎤 On this day:\n{events}")
 
 @bot.event
 async def on_ready():
     print(f"✅ Bot is online as {bot.user}")
-    check_youtube.start()
+    daily_on_this_day.start()
 
 # ----------- Start Bot -----------
 keep_alive()
