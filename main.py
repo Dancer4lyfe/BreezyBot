@@ -45,8 +45,7 @@ greeting_responses = [
     "Nice to see you!",
     "Yo! What’s good? 😎",
 ]
-
-# ----------- Greeting Logic -----------
+# ----------- Greeting & Love Logic -----------
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -55,11 +54,29 @@ async def on_message(message):
     greetings = ["hello", "hi", "hey", "sup"]
     trigger_names = ["chris", "breezy"]
 
+    # Greeting check
     if any(word in message.content.lower().split() for word in greetings) and any(name in message.content.lower() for name in trigger_names):
         response = random.choice(greeting_responses)
         await message.channel.send(f"{response} {message.author.mention}")
+        return  # prevent double response
+
+    # Love check
+    love_phrases = ["i love you", "love you", "luv u"]
+    love_responses = [
+        "❤️ I love you too {user}!",
+        "💙 Thanks {user}, I love you too!",
+        "🙌 Nothing but love for you {user}!",
+        "🔥 Always got love for you {user}!",
+        "🎶 Much love, {user}!"
+    ]
+
+    if any(phrase in message.content.lower() for phrase in love_phrases) and any(name in message.content.lower() for name in trigger_names):
+        response = random.choice(love_responses).format(user=message.author.mention)
+        await message.channel.send(response)
+        return
 
     await bot.process_commands(message)
+
 
 # ----------- Commands -----------
 
