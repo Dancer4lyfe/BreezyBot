@@ -1,17 +1,31 @@
 {
   "05-05": [
-    "1989 – Christopher Maurice Brown was born",
-    "2011 – Chris performed at the MTV Video Music Awards."
+    {
+      "text": "1989 – Christopher Maurice Brown was born"
+    },
   ],
   "08-15": [
-    "2005 – Chris released the single 'Run It!' which hit #1 on the Billboard Hot 100.",
-    "2011 – Chris performed at the MTV Video Music Awards.",
-    "2023 – Chris Brown premiered his Music Video for Summer Too Hot - https://youtu.be/qxTqRFSWmm8?si=_dS3RhnSra4r_QmJ"
+    {
+      "text": "2005 – Chris released the single 'Run It!' which hit #1 on the Billboard Hot 100."
+    },
+    {
+      "text": "2011 – Chris performed at the MTV Video Music Awards."
+    }
   ],
   "08-18": [
-    "2023 – Chris Brown premiered his Music Video for Summer Too Hot - https://youtu.be/qxTqRFSWmm8?si=_dS3RhnSra4r_QmJ"
+    {
+      "text": "2023 – Chris Brown premiered his Music Video for Summer Too Hot - https://youtu.be/qxTqRFSWmm8?si=_dS3RhnSra4r_QmJ"
+    }
+  ],
+  "08-22": [
+    {
+      "text": "2011 – Chris Brown arrives at the Reebok Classics party at Project in Las Vegas, Nevada.",
+      "image": "https://cdn01.justjared.com/wp-content/uploads/2011/08/brown-reebok/chris-brown-shirtless-reebok-party-swizz-beatz-21.jpg"
+    }
   ],
   "09-05": [
-    "2009 – Chris began the 'Fan Appreciation' tour in the U.S."
+    {
+      "text": "2009 – Chris began the 'Fan Appreciation' tour in the U.S."
+    }
   ]
 }
