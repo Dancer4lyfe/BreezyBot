@@ -129,13 +129,21 @@ async def tour(ctx):
 async def today(ctx):
     """Manually check today's On This Day events."""
     today_key = datetime.now().strftime("%m-%d")
-    print(f"DEBUG Today key: '{today_key}'")  # This will show exactly what key it's using
-    print(f"DEBUG Keys loaded: {list(on_this_day_events.keys())}")
     if today_key in on_this_day_events:
-        events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-        await ctx.send(f"@everyone 🎤 {ctx.author.mention} — On this day:\n{events}")
+        for event in on_this_day_events[today_key]:
+            # Handle new-style (dict with text + optional image)
+            if isinstance(event, dict):
+                embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
+                if "image" in event:
+                    embed.set_image(url=event["image"])
+                await ctx.send(embed=embed)
+
+            # Handle old-style (just a string)
+            else:
+                await ctx.send(f"📅 {event}")
     else:
         await ctx.send(f"🙁 {ctx.author.mention} — Nothing special found for today.")
+
 
 @tasks.loop(hours=24)
 async def daily_on_this_day():
@@ -145,8 +153,14 @@ async def daily_on_this_day():
     if channel:
         today_key = datetime.now().strftime("%m-%d")
         if today_key in on_this_day_events:
-            events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-            await channel.send(f"@everyone 🎤 On this day:\n{events}")
+            for event in on_this_day_events[today_key]:
+                if isinstance(event, dict):
+                    embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
+                    if "image" in event:
+                        embed.set_image(url=event["image"])
+                    await channel.send(embed=embed)
+                else:
+                    await channel.send(f"📅 {event}")
 
 @bot.event
 async def on_ready():
