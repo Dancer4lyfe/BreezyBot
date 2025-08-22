@@ -151,6 +151,7 @@ async def daily_on_this_day():
     if channel:
         today_key = datetime.utcnow().strftime("%m-%d")
         if today_key in on_this_day_events:
+            await channel.send("🎤 @everyone — On this day:")
             for event in on_this_day_events[today_key]:
                 if isinstance(event, dict):
                     embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
