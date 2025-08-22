@@ -1,10 +1,11 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands, tasks,
+from discord import Embed
 import random
 import os
 import asyncio
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from keep_alive import keep_alive  # Your Flask keep-alive server
 
 # Set up intents and bot
@@ -45,8 +46,7 @@ greeting_responses = [
     "Nice to see you!",
     "Yo! What’s good? 😎",
 ]
-
-# ----------- Greeting Logic -----------
+# ----------- Greeting & Love Logic -----------
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -55,11 +55,29 @@ async def on_message(message):
     greetings = ["hello", "hi", "hey", "sup"]
     trigger_names = ["chris", "breezy"]
 
+    # Greeting check
     if any(word in message.content.lower().split() for word in greetings) and any(name in message.content.lower() for name in trigger_names):
         response = random.choice(greeting_responses)
         await message.channel.send(f"{response} {message.author.mention}")
+        return  # prevent double response
+
+    # Love check
+    love_phrases = ["i love you", "love you", "luv u"]
+    love_responses = [
+        "❤️ I love you too {user}!",
+        "💙 Thanks {user}, I love you too!",
+        "🙌 Nothing but love for you {user}!",
+        "🔥 Always got love for you {user}!",
+        "🎶 Much love, {user}!"
+    ]
+
+    if any(phrase in message.content.lower() for phrase in love_phrases) and any(name in message.content.lower() for name in trigger_names):
+        response = random.choice(love_responses).format(user=message.author.mention)
+        await message.channel.send(response)
+        return
 
     await bot.process_commands(message)
+
 
 # ----------- Commands -----------
 
@@ -112,24 +130,38 @@ async def tour(ctx):
 async def today(ctx):
     """Manually check today's On This Day events."""
     today_key = datetime.now().strftime("%m-%d")
-    print(f"DEBUG Today key: '{today_key}'")  # This will show exactly what key it's using
-    print(f"DEBUG Keys loaded: {list(on_this_day_events.keys())}")
     if today_key in on_this_day_events:
-        events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-        await ctx.send(f"🎤 {ctx.author.mention} — On this day:\n{events}")
+        for event in on_this_day_events[today_key]:
+            # Handle new-style (dict with text + optional image)
+            if isinstance(event, dict):
+                embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
+                if "image" in event:
+                    embed.set_image(url=event["image"])
+                await ctx.send(embed=embed)
+
+            # Handle old-style (just a string)
+            else:
+                await ctx.send(f"📅 {event}")
     else:
         await ctx.send(f"🙁 {ctx.author.mention} — Nothing special found for today.")
+
 
 @tasks.loop(hours=24)
 async def daily_on_this_day():
     """Automatically post today's events once a day."""
-    channel_id = 1395983039288315965  # CHANGE to your channel ID
+    channel_id = 1208949333987168306  # CHANGE to your channel ID
     channel = bot.get_channel(channel_id)
     if channel:
         today_key = datetime.now().strftime("%m-%d")
         if today_key in on_this_day_events:
-            events = "\n".join([f"📅 {event}" for event in on_this_day_events[today_key]])
-            await channel.send(f"🎤 On this day:\n{events}")
+            for event in on_this_day_events[today_key]:
+                if isinstance(event, dict):
+                    embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
+                    if "image" in event:
+                        embed.set_image(url=event["image"])
+                    await channel.send(embed=embed)
+                else:
+                    await channel.send(f"📅 {event}")
 
 @bot.event
 async def on_ready():
