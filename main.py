@@ -129,17 +129,14 @@ async def tour(ctx):
 @bot.command()
 async def today(ctx):
     """Manually check today's On This Day events."""
-    today_key = datetime.now().strftime("%m-%d")
+    today_key = datetime.utcnow().strftime("%m-%d")  # use UTC consistently
     if today_key in on_this_day_events:
         for event in on_this_day_events[today_key]:
-            # Handle new-style (dict with text + optional image)
             if isinstance(event, dict):
                 embed = Embed(description=f"📅 {event['text']}", color=0x1DA1F2)
                 if "image" in event:
                     embed.set_image(url=event["image"])
                 await ctx.send(embed=embed)
-
-            # Handle old-style (just a string)
             else:
                 await ctx.send(f"📅 {event}")
     else:
@@ -148,11 +145,11 @@ async def today(ctx):
 
 @tasks.loop(hours=24)
 async def daily_on_this_day():
-    """Automatically post today's events once a day."""
-    channel_id = 1208949333987168306  # CHANGE to your channel ID
+    """Automatically post today's events once a day at 1 PM UTC."""
+    channel_id = 1208949333987168306  # your channel ID
     channel = bot.get_channel(channel_id)
     if channel:
-        today_key = datetime.now().strftime("%m-%d")
+        today_key = datetime.utcnow().strftime("%m-%d")
         if today_key in on_this_day_events:
             for event in on_this_day_events[today_key]:
                 if isinstance(event, dict):
@@ -162,6 +159,17 @@ async def daily_on_this_day():
                     await channel.send(embed=embed)
                 else:
                     await channel.send(f"📅 {event}")
+
+
+@daily_on_this_day.before_loop
+async def before_daily_on_this_day():
+    """Align task to start at exactly 1 PM UTC daily."""
+    await bot.wait_until_ready()
+    now = datetime.utcnow()
+    target = now.replace(hour=13, minute=0, second=0, microsecond=0)  # 13:00 UTC
+    if now > target:
+        target += timedelta(days=1)
+    await asyncio.sleep((target - now).total_seconds())
 
 @bot.event
 async def on_ready():
