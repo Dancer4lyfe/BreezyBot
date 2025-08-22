@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands, tasks, Embed
+from discord.ext import commands, tasks,
+from discord import Embed
 import random
 import os
 import asyncio
